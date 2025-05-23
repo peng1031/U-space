@@ -32,3 +32,23 @@ CREATE TABLE u_college
     KEY idx_name (name),
     KEY idx_campus_name (campus_name)
 ) COMMENT ='学院信息表';
+
+
+CREATE TABLE u_major (
+                         major_id BIGINT NOT NULL AUTO_INCREMENT COMMENT '专业编号（主键）',
+                         name VARCHAR(255) NOT NULL COMMENT '专业名称',
+                         code VARCHAR(50) NOT NULL COMMENT '专业代码',
+                         college_id BIGINT NOT NULL COMMENT '所属学院ID',
+                         leader VARCHAR(100) DEFAULT NULL COMMENT '专业负责人',
+                         education_level ENUM('本科', '专科', '研究生') DEFAULT '本科' COMMENT '学历层次',
+                         status ENUM('在办', '停办', '筹建') DEFAULT '在办' COMMENT '专业状态',
+                         created_by VARCHAR(32) DEFAULT NULL COMMENT '创建人',
+                         created_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                         updated_by VARCHAR(32) DEFAULT NULL COMMENT '更新人',
+                         updated_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                         PRIMARY KEY (major_id),
+                         KEY idx_name (name),
+                         KEY idx_college (college_id),
+                         CONSTRAINT fk_major_college FOREIGN KEY (college_id) REFERENCES u_college(college_id)
+                             ON DELETE CASCADE ON UPDATE CASCADE
+) COMMENT='专业信息表';

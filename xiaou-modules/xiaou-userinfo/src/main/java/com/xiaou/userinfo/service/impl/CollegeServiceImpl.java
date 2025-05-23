@@ -22,7 +22,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @Slf4j
@@ -74,6 +73,16 @@ public class CollegeServiceImpl extends ServiceImpl<CollegeMapper, College> impl
         return R.ok(PageRespDto.of(dto.getPageNum(), dto.getPageSize(), page.getTotal(),
                 collegeIPage.getRecords().stream().toList()));
     }
+
+    @Override
+    public R<UCollegeVO> getCollegeById(Long id) {
+        College college = collegeMapper.selectById(id);
+        if (college == null) {
+            return R.fail("学院不存在");
+        }
+        return R.ok(UCollegeVO.fromEntity(college));
+    }
+
 
     /**
      * 从 Sa-Token Session 中解析当前用户名

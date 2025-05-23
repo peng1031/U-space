@@ -56,4 +56,10 @@ public class CollegeController {
         return collegeService.allCollegePage(pageReqDto);
     }
 
+    @GetMapping("/{id}")
+    public R<UCollegeVO> getCollegeById(@PathVariable Long id) {
+        return collegeService.getCollegeById(id);
+    }
+
+
 }
