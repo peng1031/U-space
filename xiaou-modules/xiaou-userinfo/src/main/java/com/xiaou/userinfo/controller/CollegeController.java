@@ -56,15 +56,7 @@ public class CollegeController {
         return collegeService.allCollegePage(pageReqDto);
     }
 
-    /**
-     * 根据id查询学院
-     * @param id
-     * @return
-     */
-    @GetMapping("/{id}")
-    public R<UCollegeVO> getCollegeById(@PathVariable Long id) {
-        return collegeService.getCollegeById(id);
-    }
+
 
 
 }

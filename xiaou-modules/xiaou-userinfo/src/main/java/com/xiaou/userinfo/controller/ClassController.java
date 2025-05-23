@@ -54,13 +54,5 @@ public class ClassController {
         return classService.allClassPage(pageReqDto);
     }
 
-    /**
-     * 根据id查询班级
-     * @param id
-     * @return
-     */
-    @GetMapping("/{id}")
-    public R<UClassVO> getCollegeById(@PathVariable Long id) {
-        return classService.getClassById(id);
-    }
+
 }

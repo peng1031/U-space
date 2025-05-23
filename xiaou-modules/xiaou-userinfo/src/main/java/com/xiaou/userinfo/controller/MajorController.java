@@ -55,14 +55,6 @@ public class MajorController {
         return majorService.allMajorPage(pageReqDto);
     }
 
-    /**
-     * 根据id查询专业
-     * @param id
-     * @return
-     */
-    @GetMapping("/{id}")
-    public R<UMajorVO> getCollegeById(@PathVariable Long id) {
-        return majorService.getMajorById(id);
-    }
+
 
 }
