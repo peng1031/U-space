@@ -52,3 +52,26 @@ CREATE TABLE u_major (
                          CONSTRAINT fk_major_college FOREIGN KEY (college_id) REFERENCES u_college(college_id)
                              ON DELETE CASCADE ON UPDATE CASCADE
 ) COMMENT='专业信息表';
+
+
+DROP TABLE IF EXISTS u_class;
+
+CREATE TABLE u_class (
+                         class_id BIGINT NOT NULL AUTO_INCREMENT COMMENT '班级编号（主键）',
+                         name VARCHAR(100) NOT NULL COMMENT '班级名称',
+                         major_id BIGINT NOT NULL COMMENT '所属专业ID',
+                         grade_year YEAR NOT NULL COMMENT '入学年份',
+                         class_no VARCHAR(20) DEFAULT NULL COMMENT '班号（如01、A1）',
+                         head_teacher VARCHAR(100) DEFAULT NULL COMMENT '班主任',
+                         status ENUM('在读', '毕业', '停办') DEFAULT '在读' COMMENT '班级状态',
+                         created_by VARCHAR(32) DEFAULT NULL COMMENT '创建人',
+                         created_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                         updated_by VARCHAR(32) DEFAULT NULL COMMENT '更新人',
+                         updated_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                         PRIMARY KEY (class_id),
+                         KEY idx_major (major_id),
+                         KEY idx_grade (grade_year),
+                         CONSTRAINT fk_class_major FOREIGN KEY (major_id) REFERENCES u_major(major_id)
+                             ON DELETE CASCADE ON UPDATE CASCADE
+) COMMENT='班级信息表';
+

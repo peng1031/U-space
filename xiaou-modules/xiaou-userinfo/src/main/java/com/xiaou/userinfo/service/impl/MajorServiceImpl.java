@@ -13,6 +13,7 @@ import com.xiaou.common.page.PageRespDto;
 import com.xiaou.userinfo.domain.bo.UMajorBO;
 import com.xiaou.userinfo.domain.entity.College;
 import com.xiaou.userinfo.domain.entity.Major;
+import com.xiaou.userinfo.domain.vo.UCollegeVO;
 import com.xiaou.userinfo.domain.vo.UMajorVO;
 import com.xiaou.userinfo.mapper.CollegeMapper;
 import com.xiaou.userinfo.mapper.MajorMapper;
@@ -91,6 +92,14 @@ public class MajorServiceImpl extends ServiceImpl<MajorMapper, Major> implements
         ));
     }
 
+    @Override
+    public R<UMajorVO> getMajorById(Long id) {
+        Major major = majorMapper.selectById(id);
+        if (major == null) {
+            return R.fail("学院不存在");
+        }
+        return R.ok(UMajorVO.fromEntity(major, getCollegeNameById(id)));
+    }
 
     /**
      * 从 Sa-Token Session 中解析当前用户名
@@ -112,5 +121,6 @@ public class MajorServiceImpl extends ServiceImpl<MajorMapper, Major> implements
         College college = collegeMapper.selectById(collegeId);
         return college != null ? college.getName() : null;
     }
+
 
 }

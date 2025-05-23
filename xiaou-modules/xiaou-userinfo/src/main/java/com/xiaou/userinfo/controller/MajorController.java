@@ -5,6 +5,7 @@ import com.xiaou.common.page.PageReqDto;
 import com.xiaou.common.page.PageRespDto;
 import com.xiaou.userinfo.domain.bo.UMajorBO;
 import com.xiaou.userinfo.domain.entity.Major;
+import com.xiaou.userinfo.domain.vo.UCollegeVO;
 import com.xiaou.userinfo.domain.vo.UMajorVO;
 import com.xiaou.userinfo.service.MajorService;
 import jakarta.annotation.Resource;
@@ -53,4 +54,15 @@ public class MajorController {
     public R<PageRespDto<UMajorVO>> allMajorPage(@RequestBody PageReqDto pageReqDto) {
         return majorService.allMajorPage(pageReqDto);
     }
+
+    /**
+     * 根据id查询专业
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public R<UMajorVO> getCollegeById(@PathVariable Long id) {
+        return majorService.getMajorById(id);
+    }
+
 }
