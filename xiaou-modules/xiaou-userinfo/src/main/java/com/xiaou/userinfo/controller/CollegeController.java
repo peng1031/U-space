@@ -1,7 +1,10 @@
 package com.xiaou.userinfo.controller;
 
 import com.xiaou.common.domain.R;
+import com.xiaou.common.page.PageReqDto;
+import com.xiaou.common.page.PageRespDto;
 import com.xiaou.userinfo.domain.bo.UCollegeBO;
+import com.xiaou.userinfo.domain.entity.College;
 import com.xiaou.userinfo.domain.vo.UCollegeVO;
 import com.xiaou.userinfo.service.CollegeService;
 import jakarta.annotation.Resource;
@@ -43,4 +46,14 @@ public class CollegeController {
     public R<Void> deleteCollege(@PathVariable("id") Long id) {
         return collegeService.deleteCollege(id);
     }
+
+
+    /**
+     * 分页查询学院
+     */
+    @PostMapping("/singer/page")
+    public R<PageRespDto<College>> allSingerPage(@RequestBody PageReqDto pageReqDto) {
+        return collegeService.allCollegePage(pageReqDto);
+    }
+
 }

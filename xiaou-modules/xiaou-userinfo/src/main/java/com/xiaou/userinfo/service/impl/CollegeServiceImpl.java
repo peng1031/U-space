@@ -4,8 +4,13 @@ package com.xiaou.userinfo.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaou.common.domain.R;
+import com.xiaou.common.page.PageReqDto;
+import com.xiaou.common.page.PageRespDto;
 import com.xiaou.userinfo.domain.bo.UCollegeBO;
 import com.xiaou.userinfo.domain.entity.College;
 import com.xiaou.userinfo.domain.vo.UCollegeVO;
@@ -17,6 +22,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -59,7 +65,19 @@ public class CollegeServiceImpl extends ServiceImpl<CollegeMapper, College> impl
         }
     }
 
-    /** 从 Sa-Token Session 中解析当前用户名 */
+    @Override
+    public R<PageRespDto<College>> allCollegePage(PageReqDto dto) {
+        IPage<College> page = new Page<>();
+        page.setCurrent(dto.getPageNum());
+        page.setSize(dto.getPageSize());
+        IPage<College> collegeIPage = collegeMapper.selectPage(page, new QueryWrapper<>());
+        return R.ok(PageRespDto.of(dto.getPageNum(), dto.getPageSize(), page.getTotal(),
+                collegeIPage.getRecords().stream().toList()));
+    }
+
+    /**
+     * 从 Sa-Token Session 中解析当前用户名
+     */
     private String getCurrentUsername() {
         Object obj = StpUtil.getSession().get("user_login");
         JSONObject json = JSON.parseObject(JSON.toJSONString(obj));
