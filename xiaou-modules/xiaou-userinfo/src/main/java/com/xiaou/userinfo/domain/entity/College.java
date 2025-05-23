@@ -9,8 +9,9 @@ import java.time.LocalDateTime;
 @Data
 @TableName("u_college")
 public class College {
+
     @TableId
-    private Integer collegeId;       // 学院编号（主键）
+    private Long collegeId;       // 学院编号（主键）
     private String name;             // 学院名称
     private String dean;             // 院长姓名
     private String phone;            // 联系电话
