@@ -26,6 +26,7 @@ public class UserInfoByIdServiceImpl implements UserInfoByIdService {
     public R<List<Major>> getMajor(Long id) {
         QueryWrapper<Major> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("college_id", id);
+
         return R.ok(majorMapper.selectList(queryWrapper));
     }
 

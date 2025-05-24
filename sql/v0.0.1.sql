@@ -75,3 +75,48 @@ CREATE TABLE u_class (
                              ON DELETE CASCADE ON UPDATE CASCADE
 ) COMMENT='班级信息表';
 
+
+
+DROP TABLE IF EXISTS u_student;
+
+CREATE TABLE u_student (
+                           student_id BIGINT NOT NULL AUTO_INCREMENT COMMENT '学生编号（主键）',
+                           student_number VARCHAR(30) NOT NULL UNIQUE COMMENT '学号',
+                           name VARCHAR(100) NOT NULL COMMENT '姓名',
+                           gender ENUM('男', '女', '其他') DEFAULT '男' COMMENT '性别',
+                           phone VARCHAR(20) DEFAULT NULL COMMENT '联系电话',
+                           enrollment_year YEAR NOT NULL COMMENT '入学年份',
+                           status ENUM('在读', '休学', '退学', '毕业') DEFAULT '在读' COMMENT '学籍状态',
+                           created_by VARCHAR(32) DEFAULT NULL COMMENT '创建人',
+                           created_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                           updated_by VARCHAR(32) DEFAULT NULL COMMENT '更新人',
+                           updated_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                           PRIMARY KEY (student_id),
+                           UNIQUE KEY uq_student_number (student_number),
+                           KEY idx_name (name)
+) COMMENT='学生信息表';
+
+
+DROP TABLE IF EXISTS u_student_info_link;
+
+CREATE TABLE u_student_info_link (
+                                     link_id BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                                     student_number VARCHAR(30) NOT NULL COMMENT '学号',
+                                     major_id BIGINT NOT NULL COMMENT '专业ID',
+                                     class_id BIGINT NOT NULL COMMENT '班级ID',
+                                     college_id BIGINT NOT NULL COMMENT '学院ID',
+                                     created_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                     updated_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                     PRIMARY KEY (link_id),
+                                     UNIQUE KEY uq_student_number (student_number),
+                                     KEY idx_major (major_id),
+                                     KEY idx_class (class_id),
+                                     KEY idx_college (college_id)
+) COMMENT='学生信息关联表';
+
+-- u_student 主键 idx 已有
+ALTER TABLE u_student_info_link
+    ADD INDEX idx_student_number   (student_number),
+    ADD INDEX idx_college_id       (college_id),
+    ADD INDEX idx_major_id         (major_id),
+    ADD INDEX idx_class_id         (class_id);
