@@ -20,7 +20,7 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-
+import static com.xiaou.userinfo.utils.UserContextUtil.getCurrentUsername;
 import java.time.LocalDateTime;
 
 @Service
@@ -83,13 +83,4 @@ public class CollegeServiceImpl extends ServiceImpl<CollegeMapper, College> impl
         return R.ok(UCollegeVO.fromEntity(college));
     }
 
-
-    /**
-     * 从 Sa-Token Session 中解析当前用户名
-     */
-    private String getCurrentUsername() {
-        Object obj = StpUtil.getSession().get("user_login");
-        JSONObject json = JSON.parseObject(JSON.toJSONString(obj));
-        return json.getString("username");
-    }
 }

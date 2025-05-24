@@ -24,6 +24,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.xiaou.userinfo.utils.UserContextUtil.getCurrentUsername;
+
 @Service
 public class ClassServiceImpl extends ServiceImpl<ClassMapper, ClassEntity> implements ClassService {
 
@@ -98,11 +100,6 @@ public class ClassServiceImpl extends ServiceImpl<ClassMapper, ClassEntity> impl
         return R.ok(UClassVO.fromEntity(classEntity, getMajorNameById(id)));
     }
 
-    private String getCurrentUsername() {
-        Object obj = StpUtil.getSession().get("user_login");
-        JSONObject json = JSON.parseObject(JSON.toJSONString(obj));
-        return json.getString("username");
-    }
 
     private String getMajorNameById(Long majorId) {
         if (majorId == null) return null;

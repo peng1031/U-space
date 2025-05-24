@@ -25,6 +25,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.xiaou.userinfo.utils.UserContextUtil.getCurrentUsername;
+
 @Service
 public class MajorServiceImpl extends ServiceImpl<MajorMapper, Major> implements MajorService {
     @Resource
@@ -101,14 +103,7 @@ public class MajorServiceImpl extends ServiceImpl<MajorMapper, Major> implements
         return R.ok(UMajorVO.fromEntity(major, getCollegeNameById(id)));
     }
 
-    /**
-     * 从 Sa-Token Session 中解析当前用户名
-     */
-    private String getCurrentUsername() {
-        Object obj = StpUtil.getSession().get("user_login");
-        JSONObject json = JSON.parseObject(JSON.toJSONString(obj));
-        return json.getString("username");
-    }
+
 
     /**
      * 根据学院ID获取学院名称
